@@ -24,7 +24,7 @@ void create(){
     }
 }
 
-void length(){
+int length(){
     int count=0;
     LL *temp1;
     temp1=head;
@@ -34,8 +34,23 @@ void length(){
 
     }
     printf("%d", count);
+    return count;
 }
 
+void middleElement(){
+    int count=1;
+    int d= length();
+    if(d%2==0)
+    d=((d)/2 +1);
+    else d=(d+1)/2;
+    LL *temp1;
+    temp1=head;
+    while(count <(d)){
+        temp1=temp1->next;
+        count++;
+    }
+    printf("The middle element is %d", temp1->data);
+}
 
 void insertFront(){
     LL *newnode = (LL*)malloc(sizeof(LL));
@@ -177,6 +192,7 @@ int main()
  printf("\n 9. Insert at specified position \n");
  printf("\n 10. Reverse \n");
  printf("\n 11. Length \n");
+ printf("\n 12. MiddleElement \n");
  printf("\n -1.Exit \n");
  printf("\n--------------------------------------\n");
  printf("Enter your choice:\t");
@@ -215,6 +231,9 @@ int main()
  }
    if(choice==11){
      length();
+ }
+   if(choice==12){
+     middleElement();
  }
   if(choice==-1){
      break;

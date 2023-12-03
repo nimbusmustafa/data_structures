@@ -11,6 +11,28 @@ typedef struct node
     struct node *right;
 } bt;
 bt *root, *roota, *coppy, *merge;
+
+typedef struct
+{
+    bt *s[100];
+    int top;
+} stack;
+
+void push(stack *ps, bt *x)
+{
+    ps->s[++(ps->top)] = x;
+}
+
+bt *pop(stack *ps)
+{
+    return (ps->s[(ps->top)--]);
+}
+
+int isEmpty(stack *ps)
+{
+    return ps->top == -1;
+}
+
 bt *create()
 {
     int x;
@@ -155,7 +177,8 @@ int nodes(bt *root1)
     nodes(root1->left);
     count++;
     nodes(root1->right);
-return count;}
+    return count;
+}
 
 int leafnodes(bt *root1)
 {
@@ -172,6 +195,39 @@ int leafnodes(bt *root1)
     else
     {
         return leafnodes(root1->left) + leafnodes(root1->right);
+    }
+}
+
+void inorderIterative(bt *root)
+{
+    if (root != NULL)
+    {
+        // stack *st=(stack*)malloc(sizeof(stack));
+        stack st;
+        st.top = -1;
+        int flag = 0;
+        bt *temp = root;
+        while (!flag)
+        {
+            while (temp != NULL)
+            {
+                push(&st, temp);
+                temp = temp->left;
+            }
+            
+            if (!isEmpty(&st))
+            {
+                temp = pop(&st);
+                printf("%d\t", temp->data);
+                temp = temp->right;
+            }
+            else
+                flag = 1;
+        }
+    }
+    else
+    {
+        printf("Empty tree\n");
     }
 }
 
@@ -232,13 +288,17 @@ int main()
         }
         if (input == 11)
         {
-            int c= nodes(root);
+            int c = nodes(root);
             printf("count is %d", c);
         }
         if (input == 12)
         {
-            int d= leafnodes(root);
+            int d = leafnodes(root);
             printf("leaf node count is %d", d);
+        }
+        if (input == 13)
+        {
+            inorderIterative(root);
         }
         if (input == 8)
         {
