@@ -354,6 +354,8 @@ void levelorder(bt *tree){
     enqueue(&q, temp);
 
     while(isEmpty1(&q) == 0){
+
+
         temp=dequeue(&q);
         printf("%d\t", temp->data);
         if(temp->left != NULL)
@@ -362,6 +364,34 @@ void levelorder(bt *tree){
         enqueue(&q, temp->right);
     }
 
+}
+void iterHeight(bt *tree){
+    Queue q;
+    int input, i;
+    initialize(&q);
+    q.front=q.rear=-1;
+    bt *temp;
+    temp=root;
+    enqueue(&q, temp);
+int height=0;
+    while(isEmpty1(&q) == 0){
+
+        int nodeCount = q.rear - q.front + 1;
+        while (nodeCount > 0) {
+
+        temp=dequeue(&q);
+        printf("%d\t", temp->data);
+        if(temp->left != NULL)
+        enqueue(&q, temp->left);
+        if(temp->right!=NULL)
+        enqueue(&q, temp->right);
+
+        nodeCount--;
+    }
+    
+    height++;}
+
+printf("%d",height);
 }
 int main()
 {
@@ -435,6 +465,10 @@ int main()
         if (input == 14)
         {
             levelorder(root);
+        }
+        if (input == 15)
+        {
+            iterHeight(root);
         }
         if (input == 8)
         {
