@@ -33,7 +33,7 @@ int length(){
         count++;
 
     }
-    printf("%d", count);
+    // printf("%d", count);
     return count;
 }
 
@@ -51,6 +51,8 @@ void middleElement(){
     }
     printf("The middle element is %d", temp1->data);
 }
+
+
 
 void insertFront(){
     LL *newnode = (LL*)malloc(sizeof(LL));
@@ -177,6 +179,30 @@ void reverse(){
     head=prevnode;
 }
 
+void ascending(){
+    LL *temp, *temp1;
+    int swap;
+    temp=head;
+    temp1=head->next;
+    int len=length();
+
+while(temp->next!= NULL)  { 
+while(temp1 != NULL){
+    if(temp->data < temp1->data){
+     temp1=temp1->next;}
+    else {
+   swap= temp1->data;;
+   temp1->data=temp->data;
+   temp->data=swap;
+   temp1=temp1->next;
+    } }
+    temp=temp->next;
+    temp1=temp->next;
+}
+
+
+}
+
 int main()
 {
  int choice;
@@ -193,6 +219,7 @@ int main()
  printf("\n 10. Reverse \n");
  printf("\n 11. Length \n");
  printf("\n 12. MiddleElement \n");
+ printf("\n 13. ascending \n");
  printf("\n -1.Exit \n");
  printf("\n--------------------------------------\n");
  printf("Enter your choice:\t");
@@ -234,6 +261,9 @@ int main()
  }
    if(choice==12){
      middleElement();
+ }
+   if(choice==13){
+     ascending();
  }
   if(choice==-1){
      break;

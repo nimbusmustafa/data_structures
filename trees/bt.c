@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define n 100
 
 int count = 0;
-
 typedef struct node
 {
     int data;
@@ -11,6 +11,57 @@ typedef struct node
     struct node *right;
 } bt;
 bt *root, *roota, *coppy, *merge;
+
+typedef struct {
+    bt **queue;
+    int front, rear;
+} Queue;
+
+void initialize(Queue *q){
+        q->queue = (bt**)malloc(n * sizeof(bt*));
+
+}
+
+void enqueue(Queue *q, bt* x){
+    if(q->rear == n-1){
+        printf("Stack overflow");
+    }
+
+    else if(q->rear == -1 && q->front== -1){
+        q->rear=q->front=0;
+        q->queue[q->rear]=x;
+    }
+    else{
+        q->rear++;
+        q->queue[q->rear]=x;
+
+
+    }
+}
+
+bt* dequeue(Queue *q){
+        // printf("in dequeu");
+
+    if(q->rear == -1 && q->front== -1){
+        printf("Stack underflow");
+        return 0;
+
+    }
+    else if(q->front == q->rear){
+                bt* j= q->queue[q->front];
+
+                q->rear=q->front=-1;
+                return j;
+
+    }
+    else{
+        bt* j= q->queue[q->front];
+        // printf("%d", q->queue[q->front]);
+        q->front++;
+        return j;
+    }
+}
+
 
 typedef struct
 {
@@ -231,6 +282,87 @@ void inorderIterative(bt *root)
     }
 }
 
+
+void preorderIterative(bt* root){
+    if (root!=NULL){
+        stack *st=(stack*)malloc(sizeof(stack));
+        st->top=-1;
+        bt *temp;
+        push(st,root);
+        while(!isEmpty(st)){
+            temp=pop(st);
+            printf("%d\t",temp->data);
+            if (temp->left)
+                push(st,temp->left);
+            if (temp->right)
+                push(st,temp->right);
+        }
+    }
+    else{
+        printf("Empty tree\n");
+    }
+}
+
+void postorderIterative(bt* root){
+    struct stack{
+        bt* item;
+        int flag;
+    };
+    struct stack s[100];
+    int top=-1; 
+    bt *temp;
+    if (root==NULL){
+        printf("Empty tree\n");
+        return;
+    }
+    temp=root;
+    while(1){
+        while (temp!=NULL){
+            s[++top].item=temp;
+            s[top].flag=1;
+            temp=temp->left; 
+        }
+        while(s[top].flag==-1){
+            temp=s[top--].item;
+            printf("%d\t",temp->data);
+            if (top==-1)
+                return;
+        } 
+        temp=s[top].item;
+        temp=temp->right;
+        s[top].flag=-1;
+    }
+}
+
+int isEmpty1(Queue *q){
+        // printf("in empty");
+
+        if(q->rear == -1 && q->front== -1){
+        return 1;}
+
+        else return 0;
+
+}
+
+void levelorder(bt *tree){
+    Queue q;
+    int input, i;
+    initialize(&q);
+    q.front=q.rear=-1;
+    bt *temp;
+    temp=root;
+    enqueue(&q, temp);
+
+    while(isEmpty1(&q) == 0){
+        temp=dequeue(&q);
+        printf("%d\t", temp->data);
+        if(temp->left != NULL)
+        enqueue(&q, temp->left);
+        if(temp->right!=NULL)
+        enqueue(&q, temp->right);
+    }
+
+}
 int main()
 {
 
@@ -299,6 +431,10 @@ int main()
         if (input == 13)
         {
             inorderIterative(root);
+        }
+        if (input == 14)
+        {
+            levelorder(root);
         }
         if (input == 8)
         {
